@@ -1,0 +1,40 @@
+otpauth://TYPE/LABEL?PARAMETERS
+otpauth://totp/Secure%20App:alice%40google.com?secret=JBSWY3DPEHPK3PXP&issuer=Secure%20App
+
+TYPE: hotp (counter) or totp (time based)
+
+LABEL: label = accountname / issuer (“:” / “%3A”) *”%20” accountname
+Valid values might include 
+	Example:alice@gmail.com, 
+	Provider1:Alice%20Smith or 
+	Big%20Corporation%3A%20alice%40bigco.com.
+
+PARAMETERS: secret [issuer] [algorithm] [digits] counter [period]
+
+secret: REQUIRED: The secret parameter is an arbitrary key value encoded in Base32 according to RFC 3548. The padding specified in RFC 3548 section 2.2 is not required and should be omitted.
+
+issuer: STRONGLY RECOMMENDED: The issuer parameter is a string value indicating the provider or service this account is associated with, URL-encoded according to RFC 3986. If the issuer parameter is absent, issuer information may be taken from the issuer prefix of the label. If both issuer parameter and issuer label prefix are present, they should be equal.
+Valid values:
+	issuer=Example, 
+	issuer=Provider1, and 
+	issuer=Big%20Corporation.
+
+Algorithm: OPTIONAL (currently ignored)
+	SHA1 (Default)
+	SHA256
+	SHA512
+
+digits: OPTIONAL The digits parameter may have the values 6 or 8, and determines how long of a one-time passcode to display to the user. The default is 6. (currently ignored on Android/blackberry)
+
+counter: REQUIRED if type is hotp The counter parameter is required when provisioning a key for use with HOTP. It will set the initial counter value.
+
+period: OPTIONAL only if type is totp: The period parameter defines a period that a TOTP code will be valid for, in seconds. The default value is 30. (currently ignored)
+
+
+From RFC6238
+We RECOMMEND a default time-step size of 30 seconds.  This default value of 30 seconds is selected as a balance between security and usability.
+
+The security and strength of this algorithm depend on the properties of the underlying building block HOTP, which is a construction based on HMAC [RFC2104] using SHA-1 as the hash function.
+
+TOTP implementations MAY use HMAC-SHA-256 or HMAC-SHA-512 functions, based on SHA-256 or SHA-512 [SHA2] hash functions, instead of the HMAC-SHA-1 function that has been specified for the HOTP computation in [RFC4226].
+
