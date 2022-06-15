@@ -5,13 +5,15 @@ Email: millzanem@gmail.com
 Description: Quickselect algorithm
 """
 
-import random
+import random, math
+import statistics
 
 
 class Quickselect:
     """
     Creates an Quickselect class select the 'k-th' smallest item or sort the
     elements in ascending order
+    TODO integrate median of medians with quickselect for selecting pivot
     """
 
     def __init__(self, arr):
@@ -45,6 +47,7 @@ class Quickselect:
 
         # re-arrange the array so that smaller values are to left of pivot and
         # larger values are to right of pivot
+
         pivot_index = self.partition(first_index, last_index)
 
         #  The 'k-th' smallest element found
@@ -108,14 +111,117 @@ class Quickselect:
 
         return sorted_arr
 
-    def median_median(self):
+
+def insertion_sort(start_index, end_index, arr):
+    """
+    Insertion sort algorithm
+    """
+
+    for index in range(start_index, end_index + 1):
+        key = arr[index]
+
+        j = index - 1
+        while j >= start_index and key < arr[j]:
+            arr[j + 1] = arr[j]
+            j -= 1
+        arr[j + 1] = key
+
+
+class QuickselectMedian:
+    """
+    Quickselect class using median of medias algorithm
+    """
+
+    def __init__(self, arr, k):
+        """
+        creates an object with an array and k-th smallest item to find.
+        """
+        self.arr = arr
+        self.k = k
+
+        self.median_median_helper()
+
+    def median_median(self, arr, k):
+        """
+        Finds the median of medians of sub-arrays of defined group size.
+        Returns the value of the median of medians
+        """
+
+        group_size = 5
+        groups = int(math.ceil(len(arr) / group_size))
+        group_num = 1
+        medians = []
+
+        # sorts each sub-arry of size 5
+        while group_num < groups:
+            first_index = group_num * group_size - group_size
+            last_index = group_num * group_size
+            chunk = sorted(arr[first_index:last_index])
+            chunk.sort()
+            group_num += 1
+
+            # adds the median of group to medians
+            median_index = len(chunk) // 2
+            medians.append(chunk[median_index])
+
+        # sorts the last group
+        if group_num == groups:
+            first_index = group_num * group_size - group_size
+            last_index = len(arr)
+            chunk = arr[first_index:last_index]
+            chunk.sort()
+
+            # adds the median of group to medians
+            median_index = len(chunk) // 2
+            medians.append(chunk[median_index])
+
+        # sort the medians to find the median of medians
+        medians.sort()
+        median_index = len(medians) // 2
+        pivot_value = medians[median_index]
+
+        left_array = [n for n in arr if n < pivot_value]
+        right_array = [m for m in arr if m > pivot_value]
+        pivot_index = len(left_array)
+
+        if k < pivot_index:
+            return self.median_median(left_array, k)
+
+        elif k > pivot_index:
+            return self.median_median(right_array, k - len(left_array) - 1)
+
+        return pivot_value
+
+    def median_median_helper(self):
         """
         Temp
         """
-
+        return self.median_median(self.arr, self.k - 1)
 
 
 if __name__ == '__main__':
+
+    print("Test -- Quickselect with Median of Medians")
+    print("-----------------------------------------")
+
+    my_arr00 = [1, -2, 5, 8, 7, 6, 10, 4, 18, 2, -3, -4, 55, 0, 11]
+    quick_select_median = QuickselectMedian(my_arr00, 1)
+    print("median of medians smallest:",
+          quick_select_median.median_median_helper())
+
+    my_arr01 = [1, -2, 5, 8, 7, 6, 10, 4, 18, 2, -3, -4, 55, 0, 11]
+    quick_select_median = QuickselectMedian(my_arr01, len(my_arr01))
+    print("median of medians largest:",
+          quick_select_median.median_median_helper())
+    print("\n")
+
+
+    print("Test -- Insertion sort test")
+    print("---------------------------")
+    insertion_sort(0, len(my_arr00) - 1, my_arr00)
+    print("Insertion sort test:", my_arr00)
+    print("\n")
+
 
     print("Test 1 - Small fixed array")
     print("--------------------------")
