@@ -129,7 +129,7 @@ def insertion_sort(start_index, end_index, arr):
 
 class QuickselectMedian:
     """
-    Quickselect class using median of medias algorithm
+    Quickselect class using median of medias algorithm.
     """
 
     def __init__(self, arr, k):
