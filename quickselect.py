@@ -13,7 +13,7 @@ class Quickselect:
     """
     Creates an Quickselect class select the 'k-th' smallest item or sort the
     elements in ascending order
-    TODO integrate median of medians with quickselect for selecting pivot
+    TODO integrate median of medians with quickselect for selecting pivot (introselect algorithm)
     """
 
     def __init__(self, arr):
@@ -205,12 +205,20 @@ if __name__ == '__main__':
     print("-----------------------------------------")
 
     my_arr00 = [1, -2, 5, 8, 7, 6, 10, 4, 18, 2, -3, -4, 55, 0, 11]
+
     quick_select_median = QuickselectMedian(my_arr00, 1)
     print("median of medians smallest:",
           quick_select_median.median_median_helper())
-
-    my_arr01 = [1, -2, 5, 8, 7, 6, 10, 4, 18, 2, -3, -4, 55, 0, 11]
-    quick_select_median = QuickselectMedian(my_arr01, len(my_arr01))
+    quick_select_median = QuickselectMedian(my_arr00, 2)
+    print("median of medians 2nd smallest:",
+          quick_select_median.median_median_helper())
+    quick_select_median = QuickselectMedian(my_arr00, 3)
+    print("median of medians 3rd smallest:",
+          quick_select_median.median_median_helper())
+    quick_select_median = QuickselectMedian(my_arr00, len(my_arr00) - 1)
+    print("median of medians 2nd largest:",
+          quick_select_median.median_median_helper())
+    quick_select_median = QuickselectMedian(my_arr00, len(my_arr00))
     print("median of medians largest:",
           quick_select_median.median_median_helper())
     print("\n")
@@ -234,6 +242,7 @@ if __name__ == '__main__':
     # sort the array
     print("sorted:", quick_select.quick_sort())
     print("\n")
+
 
     print("Test 2 - Larger random array")
     print("----------------------------")
