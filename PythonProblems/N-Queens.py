@@ -20,12 +20,13 @@ class NQueen:
 		if self.n > 3:
 			self.board_array = self.initialize_board()
 			if self.find_solution():
-				self.print_solution()
+				self.get_solution()
 
 		else:
 			print("No Solution: board not big enough")
 
-	def print_solution(self):
+	def get_solution(self):
+		""" Prints the solution for the given n-queens problem """
 		for row in self.board_array:
 			print(row)
 
@@ -46,27 +47,34 @@ class NQueen:
 		return self.board_array
 
 	def find_solution(self, column=0):
-		"""
-		Finds each solution of the n-queens problem
-		"""
+		""" Finds the first solution of the n-queens problem """
 
 		# all queens have been placed
 		if column >= self.n:
 			return True
 
 		for row in range(self.n):
+			# Check the current space is a valid space to place a queen.
 			if self.check_safe(row, column):
 
+				# place the queen at the current index
 				self.update_queen(row, column)
 
+				# Check the next column for placing a queen
 				if self.find_solution(column + 1):
 					return True
 
+				# backtrack - reset the current index and try the next one
 				self.board_array[row][column] = 0
 
+		# All the rows in a given column are invalid spaces for a queen
 		return False
 
 	def check_safe(self, row, column):
+		"""
+		Checks if the current index is a valid index to place a queen.
+		Checks horizontally and diagonally
+		"""
 
 		if (self.check_row(row, column)
 					and self.check_diagonal_upper(row, column)
@@ -81,7 +89,7 @@ class NQueen:
 		self.board_array[row][column] = 1
 
 	def check_row(self, row, column):
-		""" Blocks the remaining board spaces in the row """
+		""" Checks if a queen can be attacked horizontally """
 
 		for space in range(column):
 			if self.board_array[row][space] == 1:
@@ -90,7 +98,7 @@ class NQueen:
 		return True
 
 	def check_diagonal_upper(self, row, column):
-		""" Blocks the board spaces diagonally down right """
+		""" Checks if a queen can be attacked diagonally """
 
 		for row_space, column_space in zip(range(row, -1, -1), range(column, -1, -1)):
 			if self.board_array[row_space][column_space] == 1:
@@ -99,7 +107,7 @@ class NQueen:
 		return True
 
 	def check_diagonal_lower(self, row, column):
-		""" Checks the board spaces diagonally down left """
+		""" Checks if a queen can be attacked diagonally """
 
 		for row_space, column_space in zip(range(row, self.n, 1), range(column, -1, -1)):
 			if self.board_array[row_space][column_space] == 1:
@@ -111,3 +119,15 @@ class NQueen:
 
 if __name__ == '__main__':
 	test = NQueen(8)
+	print("9 \n")
+	test2 = NQueen(9)
+	print("10 \n")
+	test3 = NQueen(10)
+	print("11 \n")
+	test2 = NQueen(11)
+	print("12 \n")
+	test3 = NQueen(12)
+	print("13 \n")
+	test2 = NQueen(13)
+	print("14 \n")
+	test3 = NQueen(14)
