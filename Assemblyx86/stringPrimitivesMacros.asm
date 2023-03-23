@@ -1,10 +1,7 @@
-; TITLE Project 6: String Primitives and Macros     (Proj6_millzane.asm)
+; TITLE Project 6: String Primitives and Macros
 
 ; Author: Zane Miller
 ; Last Modified: 11/22/2021
-; OSU email address: millzane@oregonstate.edu
-; Course number/section: 271   CS271 Section 400
-; Project Number: Project 6         Due Date: 12/05/2021
 ; Description: This program implements two macros (mGetString and mDisplayString) for string 
 ;				processing and two procedures (ReadVal and WriteVal) for signed integers which use 
 ;				string primitive instructions. Finally, there is a test program in main which uses 
